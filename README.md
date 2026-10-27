@@ -7,7 +7,8 @@
 
 The shared engine behind the [shouldipanic.ch](https://shouldipanic.ch) scanners
 ([php2scan](https://github.com/akaihigurashi/php2scan),
-[brotli2scan](https://github.com/akaihigurashi/brotli2scan), ...).
+[brotli2scan](https://github.com/akaihigurashi/brotli2scan),
+[plex2scan](https://github.com/akaihigurashi/plex2scan), ...).
 
 Every scanner is published as **one Python file with no dependencies**. This
 repository holds what they have in common, and `bundle.py` combines it with a
@@ -52,6 +53,8 @@ A `check.py` defines:
 | `TARGETS` | Technologies whose database rules are embedded (with everything implying them) |
 | `FINGERPRINTS` | Hand-written rules `(technology, "header"/"cookie"/"body", regex)`; a capture group is the version |
 | `IMPLIES` | Extra "X always runs on Y" rules |
+| `VERSION_URLS` | Optional: pages that reveal a version, `(technology, path, regex, when)`; one GET each, `when` = only if one of these technologies was found (`None`: always) |
+| `EXTRA_PORTS`, `WEB_EXTRA_PORTS` | Optional: the product's own ports, added to the port scan (`"32400"`) and checked by the web page when open (`[32400]`) |
 | `BANNER`, `BANNER_COLOR`, `BANNER_TAGS`, `BUILTIN_LABEL`, `APPS_LABEL`, `COLUMNS` | Command-line look and CSV columns |
 | `verdict(info)` | Returns `(verdict, version, technologies)` for the result row |
 | `count_key(verdict)` | Groups verdicts in the summary line |
