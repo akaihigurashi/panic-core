@@ -1,4 +1,9 @@
-# panic-core
+<h1>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/logo-dark.png">
+    <img alt="panic-core" src="docs/logo-light.png" width="285">
+  </picture>
+</h1>
 
 The shared engine behind the [shouldipanic.ch](https://shouldipanic.ch) scanners
 ([php2scan](https://github.com/akaihigurashi/php2scan),
