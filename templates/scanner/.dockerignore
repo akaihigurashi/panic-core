@@ -1,0 +1,12 @@
+state/
+audit/
+__pycache__/
+*.pyc
+.git/
+.github/
+.panic-core/
+deploy/
+docs/
+check.py
+README.md
+LICENSE

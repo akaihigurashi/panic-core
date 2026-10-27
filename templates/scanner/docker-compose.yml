@@ -1,0 +1,55 @@
+services:
+  @NAME@:
+    image: ghcr.io/akaihigurashi/@NAME@:latest
+    # build: .          # uncomment to build from a clone instead of pulling
+    container_name: @NAME@
+    restart: unless-stopped
+
+    environment:
+      # Your public address - the API only accepts requests from this origin.
+      PANIC_ORIGIN: "https://@NAME@.example.ch"
+      # Optional: a contact section at the bottom of the page
+      # PANIC_OPERATOR: "Your Name"
+      # PANIC_CONTACT: "abuse@example.ch"
+      # PANIC_IMPRINT_URL: "https://www.example.ch/imprint"
+      # nginx on the host reaches the container via this network's gateway:
+      PANIC_TRUSTED_PROXY: "@GATEWAY@"
+      # Never check these domains / IPs (comma-separated), e.g. your own servers:
+      # PANIC_DENY_HOSTS: "example.ch,intranet.example.ch"
+      # PANIC_DENY_IPS: "203.0.113.10"   (your own server is excluded automatically)
+
+    # only reachable from the host itself - nginx does TLS and forwards to it
+    ports:
+      - "127.0.0.1:@PORT@:@PORT@"
+
+    volumes:
+      - @NAME@-data:/data
+
+    networks:
+      - @NAME@
+
+    # hardening
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 256m
+    pids_limit: 128
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  @NAME@:
+    ipam:
+      config:
+        - subnet: @SUBNET@
+          gateway: @GATEWAY@
+
+volumes:
+  @NAME@-data:
