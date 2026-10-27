@@ -82,10 +82,10 @@ def embedded_db(targets):
 
 def core_rev():
     try:
-        # read-only: no index refresh, so no .git/index.lock is ever left behind
-        env = {**os.environ, "GIT_OPTIONAL_LOCKS": "0"}
-        return subprocess.run(["git", "-C", HERE, "describe", "--always", "--dirty", "--tags"],
-                              capture_output=True, text=True, check=True, env=env).stdout.strip()
+        # rev-parse only reads: it never touches the index, so no .git/index.lock is left
+        # behind (describe --dirty refreshes the index and can leave one on a read-only mount)
+        return subprocess.run(["git", "-C", HERE, "rev-parse", "--short", "HEAD"],
+                              capture_output=True, text=True, check=True).stdout.strip()
     except Exception:  # noqa: BLE001
         return "unknown"
 
