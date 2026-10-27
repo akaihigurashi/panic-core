@@ -82,8 +82,10 @@ def embedded_db(targets):
 
 def core_rev():
     try:
+        # read-only: no index refresh, so no .git/index.lock is ever left behind
+        env = {**os.environ, "GIT_OPTIONAL_LOCKS": "0"}
         return subprocess.run(["git", "-C", HERE, "describe", "--always", "--dirty", "--tags"],
-                              capture_output=True, text=True, check=True).stdout.strip()
+                              capture_output=True, text=True, check=True, env=env).stdout.strip()
     except Exception:  # noqa: BLE001
         return "unknown"
 
